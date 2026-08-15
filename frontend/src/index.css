@@ -11,3 +11,7 @@
   /* ブレイクポイント（レスポンシブ）の変更 */
   --breakpoint-3xl: 1920px;
 }
+
+#title {
+  font-family: 'Pacifico', cursive;
+}
