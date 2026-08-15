@@ -1,1 +1,13 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@theme {
+  /* カスタムカラーの追加 */
+  --color-brand-primary: #3490dc;
+  --color-brand-secondary: #ffed4a;
+
+  /* フォントの追加 */
+  --font-sans: 'Inter', sans-serif;
+
+  /* ブレイクポイント（レスポンシブ）の変更 */
+  --breakpoint-3xl: 1920px;
+}
