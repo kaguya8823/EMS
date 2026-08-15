@@ -12,5 +12,10 @@ ubuntu ->
 
 　> use parties // rocket.chatが使っているデータベース内部を直接見れる
 
-  さらに、
+  > use ems
   > show collections // 中身
+  > db.users.find() // 登録されているユーザーデータを見る
+
+  frontend 内で npm run dev
+  server 内で npm run start
+
