@@ -14,7 +14,7 @@ const login = async (req, res) => {
 
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch) {
-            res.status(404).json({success: false, error: "Wrong Password"})
+            res.status(400).json({success: false, error: "Wrong Password"})
         }
 
         const token = jwt.sign({_id: user._id, role: user.role},
@@ -27,7 +27,7 @@ const login = async (req, res) => {
         }});
     } catch (error) {
         console.error("Error during login:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ success: false, error: error.message });
     }
 };
 

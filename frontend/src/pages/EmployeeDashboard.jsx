@@ -1,14 +1,14 @@
 
 import { useAuth } from '../context/authContext.jsx';
 
-const AdminDashboard = () => {
+const EmployeeDashboard = () => {
   const { user } = useAuth();
 
   if (!user) {
     return <div>Please log in first.</div>;
   }
 
-  return <div>Admin Dashboard {user.name}</div>;
+  return <div>EmployeeDashboard {user.name}</div>;
 };
 
-export default AdminDashboard;
+export default EmployeeDashboard

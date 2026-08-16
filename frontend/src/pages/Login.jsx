@@ -1,20 +1,43 @@
-import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext.jsx";
+
 
 const Login = () => {
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [email, setEmail] = useState(``);
+    const [password, setPassword] = useState(``);
+    const [error, setError] = useState(null);
+    const {login} = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-    e.preventDefault()
-    try {
-        const response = await axios.post("http://localhost:3001/api/auth/login", {
-            email,
-            password
-        });
-        console.log("Login successful:", response.data);
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+      e.preventDefault();
+      setError(null);
+
+      try {
+        const response = await axios.post(`http://localhost:3001/api/auth/login`, { email, password });
+        const { success, token, user: loggedInUser } = response.data;
+
+        if (!success) {
+          setError(response.data.error || "Login failed");
+          return;
+        }
+
+        login(loggedInUser);
+        localStorage.setItem("token", token);
+
+        if (loggedInUser.role === "admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/employee-dashboard");
+        }
+      } catch (error) {
+        const message = error.response?.data?.error || error.response?.data?.message || "Server Error";
+        setError(message);
+      }
+    };
+
   return (
     <div 
       className="flex flex-col items-center h-screen justify-center
@@ -25,6 +48,7 @@ const Login = () => {
         </h2>
         <div className="border shadow p-6 w-80 bg-white">
           <h2 className="text-2xl font-bold mb-4">Login</h2>
+          {error && <p className="text-red-500">{error}</p>}
           <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">
@@ -36,6 +60,7 @@ const Login = () => {
              placeholder="Enter Email"
              className="w-full px-3 py-2 border"
              onChange={(e) => setEmail(e.target.value)}
+             required
              />
           </div>
           <div className="mb-4">
@@ -48,6 +73,7 @@ const Login = () => {
              placeholder="Enter Password"
              className="w-full px-3 py-2 border"
              onChange={(e) => setPassword(e.target.value)}
+             required
             />
           </div>
           <div className="mb-4 flex items-center justify-between">
