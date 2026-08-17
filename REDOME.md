@@ -19,3 +19,4 @@ ubuntu ->
   frontend 内で npm run dev
   server 内で npm run start
 
+## microsoft edge では全く表示されない原因は、後で調べる0817

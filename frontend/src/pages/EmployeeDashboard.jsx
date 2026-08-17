@@ -1,5 +1,5 @@
 
-import { useAuth } from '../context/authContext.jsx';
+import { useAuth } from '../hooks/useAuth';
 
 const EmployeeDashboard = () => {
   const { user } = useAuth();

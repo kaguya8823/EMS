@@ -1,14 +1,19 @@
-
-import { useAuth } from '../context/authContext.jsx';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const AdminDashboard = () => {
-  const { user } = useAuth();
-
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+  if(loading) {
+    return (
+      <div>Loading...</div>
+    )
+  }
   if (!user) {
-    return <div>Please log in first.</div>;
+    navigate('/login');
   }
 
-  return <div>Admin Dashboard {user.name}</div>;
+  return ( <div>Admin Dashboard {user && user.name}</div>)
 };
 
 export default AdminDashboard;
