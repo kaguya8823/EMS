@@ -4,7 +4,7 @@ import User from "../models/User.js";
 
 const verifyUser = async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(" ")[1]
+        const token = req.headers.authorization.split(' ')[1]
         // Add your token verification logic here
         if(!token) {
             return res.status(404).json({success: false, error: "Token Not Provided"})

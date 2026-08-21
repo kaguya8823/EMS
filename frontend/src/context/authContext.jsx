@@ -12,16 +12,19 @@ const AuthContext = ({ children }) => {
                 if(token) {
                 const response = await axios.get(`http://localhost:3001/api/auth/verify`, {
                     headers: {
-                        "Authorization" : `Bearer ${token}`
-                    }
-                })
+                        Authorization : `Bearer ${token}`,
+                    },
+                });
+                console.log(response)
                 if(response.data.success) {
                     setUser(response.data.user)
                 }
             } else {
-                setUser(null)
+                setUser(null);
+                setLoading(false);
             }
             } catch(error) {
+                console.log(error)
                 if(error.response && !error.response.data.error) {
                     setUser(null)
                 }
