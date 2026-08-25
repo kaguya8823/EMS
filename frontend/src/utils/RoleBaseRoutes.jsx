@@ -15,5 +15,4 @@ const RoleBaseRoutes = ({children, requiredRole}) => {
 
     return user ? children : <Navigate to="/login" />
 }
-
 export default RoleBaseRoutes

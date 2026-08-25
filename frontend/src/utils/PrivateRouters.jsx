@@ -10,7 +10,7 @@ const PrivateRouters = ({children}) => {
       return  <div>Loading...</div>
     }
 
-    return user ? children : <Navigate to="/ligin" />
+    return user ? children : <Navigate to="/login" />
 }
 
 export default PrivateRouters
