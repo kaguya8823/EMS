@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { userContext } from '../hooks/useAuth'
+
 const AuthContext = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -9,29 +10,32 @@ const AuthContext = ({ children }) => {
         const verifyUser = async () => {
             try {
                 const token = localStorage.getItem("token")
-                if(token) {
+
+                if (!token) {
+                    setUser(null)
+                    setLoading(false)
+                    return
+                }
+
                 const response = await axios.get(`http://localhost:3001/api/auth/verify`, {
                     headers: {
-                        Authorization : `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
-                });
-                console.log(response)
-                if(response.data.success) {
+                })
+
+                if (response.data.success) {
                     setUser(response.data.user)
-                }
-            } else {
-                setUser(null);
-                setLoading(false);
-            }
-            } catch(error) {
-                console.log(error)
-                if(error.response && !error.response.data.error) {
+                } else {
                     setUser(null)
                 }
+            } catch (error) {
+                console.log(error)
+                setUser(null)
             } finally {
                 setLoading(false)
             }
         }
+
         verifyUser()
     }, [])
 
@@ -45,7 +49,7 @@ const AuthContext = ({ children }) => {
     }
 
     return (
-        <userContext.Provider value={{user, login, logout, loading}}>
+        <userContext.Provider value={{ user, login, logout, loading }}>
             {children}
         </userContext.Provider>
     )

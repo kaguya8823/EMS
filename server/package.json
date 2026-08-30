@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --env-file=.env index.js"
+    "start": "nodemon --env-file=.env index.js",
+    "seed:user": "node --env-file=.env userSeed.js",
+    "seed:department": "node --env-file=.env departmentSeed.js"
   },
   "keywords": [],
   "author": "",

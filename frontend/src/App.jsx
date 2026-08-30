@@ -13,26 +13,36 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/admin-dashboard" element={
-          <PrivateRouters>
-            <RoleBaseRoutes requiredRole={"admin"}>
-              <AdminDashboard />
-            </RoleBaseRoutes>
-          </PrivateRouters>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
 
-          }>
-            <Route index element={<AdminSummary />}></Route>
+        <Route
+          path="/admin-dashboard/*"
+          element={
+            <PrivateRouters>
+              <RoleBaseRoutes requiredRole="admin">
+                <AdminDashboard />
+              </RoleBaseRoutes>
+            </PrivateRouters>
+          }
+        >
+          <Route index element={<AdminSummary />} />
+          <Route path="departments" element={<DepartmentList />} />
+          <Route path="add-department" element={<AddDepartment />} />
+        </Route>
 
-            <Route path="/admin-dashboard/departments" element={<DepartmentList />}></Route>
-            <Route path="/admin-dashboard/add-department" element={<AddDepartment />}></Route>
+        <Route
+          path="/employee-dashboard"
+          element={
+            <PrivateRouters>
+              <RoleBaseRoutes requiredRole="employee">
+                <EmployeeDashboard />
+              </RoleBaseRoutes>
+            </PrivateRouters>
+          }
+        />
 
-
-
-
-          </Route>
-        <Route path="/employee-dashboard" element={<EmployeeDashboard />}></Route>
+        <Route path="/unauthorized" element={<div>Unauthorized</div>} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,9 +1,9 @@
 {
   "dependencies": {
+    "@revivejs/react-data-table-component": "^9.1.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.19.0",
-    "react-data-table-component": "^8.8.0",
     "react-icons": "^5.7.0",
     "react-router-dom": "^7.18.2",
     "styled-components": "^6.5.2"
