@@ -1,4 +1,4 @@
-import { defineConfig, optimizeDeps } from 'vite'
+import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import Unfonts from 'unplugin-fonts/vite'
@@ -13,11 +13,5 @@ export default defineConfig({
       }
     }),
     tailwindcss(),
-    optimizeDeps: {
-      include: [
-        'react-data-table-component',
-        'styled-components'
-      ]
-    }
   ]
 });

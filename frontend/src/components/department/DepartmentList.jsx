@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom'
-import DataTable from 'react-data-table-component'
+import DataTable from '@revivejs/react-data-table-component'
 import { columns, defaultDepartmentSample } from '../../utils/DepartmentHelper'
 import { useEffect, useState } from 'react'
 import { DepartmentButtons } from '../../parts/DepartmentButton'
