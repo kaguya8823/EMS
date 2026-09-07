@@ -1,31 +1,7 @@
 import { useNavigate } from "react-router-dom"
 
-export const defaultDepartmentSample = [
-    {
-        sno: 1,
-        dep_name: "IT",
-        action: "EditDelete"
-    }
-]
-
-export const columns = [
-    {
-        name: "S No",
-        selector: (row) => row.sno
-    },
-    {
-        name: "Department Name",
-        selector: (row) => row.dep_name
-    },
-    {
-        name: "Action",
-        selector: (row) => row.action
-    },
-]
-
-export const DepartmentButtons = ({ Id }) => {
+export const DepartmentButtons = ({Id}) => {
     const navigate = useNavigate()
-    alert(Id)
     return (
         <div className="flex space-x-3">
             <button className="px-3 py-1 bg-teal-600 text-white"

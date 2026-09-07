@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const EditDepartment = () => {
     const {id} = useParams()
     const [department, setDepartment] = useState([])
     const [depLoading, setDepLoading] = useState(false)
+    const navigate = useNavigate()
 
   useEffect(() => {
     const fetchDepartments = async () => {

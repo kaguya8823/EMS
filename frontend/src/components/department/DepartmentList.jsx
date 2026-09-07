@@ -1,7 +1,7 @@
 
 import { Link } from 'react-router-dom'
 import DataTable from '@revivejs/react-data-table-component'
-import { columns, defaultDepartmentSample } from '../../utils/DepartmentHelper'
+import { columns, defaultDepartmentSample } from '../../utils/columns'
 import { useEffect, useState } from 'react'
 import { DepartmentButtons } from '../../parts/DepartmentButton'
 import axios from 'axios'
