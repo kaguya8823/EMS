@@ -16,25 +16,20 @@ const DepartmentList = () => {
       try {
         const response = await axios.get('http://localhost:3001/api/department', {
           headers: {
-            "Authorization" : `Bearer ${localStorage.getItem('token')}`
-          }
-        })
+            Authorization : `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
 
         if (response.data.success) {
-          const serverDepartments = response.data.departments || []
-          const mappedData = serverDepartments.length > 0
-            ? serverDepartments.map((dep, index) => ({
+          let sno = 1;
+          console.log(response.data)
+          const data = await response.data.departments.map((dep) => ({
                 _id: dep._id,
-                sno: index + 1,
+                sno: sno++,
                 dep_name: dep.dep_name,
-                action: (<DepartmentButtons />)
-              }))
-            : defaultDepartmentSample.map((row) => ({
-                ...row,
-                action: row.action
-              }))
-
-          setDepartments(mappedData)
+                action: (<DepartmentButtons Id={dep._id} />),
+              }));
+          setDepartments(data)
         }
       } catch(error) {
         if(error.response && !error.response.data.success) {
@@ -56,8 +51,8 @@ const DepartmentList = () => {
       </div>
       <div className='flex justify-between items-center'>
         <input 
-        tepe="text" 
-        placeholder='Seach By Name'
+        type="text" 
+        placeholder='Search By Dep Name'
         className='px=4 py-0.5 border'
          />
         <Link to="/admin-dashboard/add-department"
@@ -66,7 +61,7 @@ const DepartmentList = () => {
         Add New Department
         </Link>
       </div>
-      <div>
+      <div className='mt-5'>
         <DataTable
         columns={columns}
         data={departments}

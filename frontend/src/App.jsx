@@ -8,41 +8,35 @@ import RoleBaseRoutes from "./utils/RoleBaseRoutes";
 import AdminSummary from "./components/dashboard/AdminSummary";
 import DepartmentList from "./components/department/DepartmentList";
 import AddDepartment from "./components/department/AddDepartment";
+import EditDepartment from "./components/department/EditDepartment";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
-
+        <Route path="/" element={<Navigate to="/admin-dashboard" replace />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route
-          path="/admin-dashboard/*"
+          path="/admin-dashboard"
           element={
             <PrivateRouters>
-              <RoleBaseRoutes requiredRole="admin">
+              <RoleBaseRoutes requiredRole={["admin"]}>
                 <AdminDashboard />
               </RoleBaseRoutes>
             </PrivateRouters>
-          }
-        >
-          <Route index element={<AdminSummary />} />
-          <Route path="departments" element={<DepartmentList />} />
-          <Route path="add-department" element={<AddDepartment />} />
-        </Route>
+          }>
+          <Route index element={<AdminSummary />}></Route>
 
+          <Route path="/admin-dashboard/departments" element={<DepartmentList />} ></Route>
+          <Route path="/admin-dashboard/add-department" element={<AddDepartment />} ></Route>
+          <Route path="/admin-dashboard/department/:id" element={<EditDepartment />} ></Route>
+
+        </Route>
         <Route
           path="/employee-dashboard"
           element={
-            <PrivateRouters>
-              <RoleBaseRoutes requiredRole="employee">
-                <EmployeeDashboard />
-              </RoleBaseRoutes>
-            </PrivateRouters>
-          }
-        />
-
-        <Route path="/unauthorized" element={<div>Unauthorized</div>} />
+                <EmployeeDashboard />}>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
