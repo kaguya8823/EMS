@@ -13,4 +13,9 @@ ubuntu ->
 > 各種ポートが利用しているもの
 5173: フロントエンド（Vite）
 3001: バックエンド API（Express）
-27017: MongoDB 本体
+27017: MongoDB 本体 (ubuntu mongosh)
+
+
+## 確認しているエラーの部分
+Department でeditを押しても「edit department server error」とでて編集できない
+delete を押して、オートリロードで再表示されない。

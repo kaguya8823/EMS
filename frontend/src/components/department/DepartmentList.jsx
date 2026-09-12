@@ -12,8 +12,12 @@ const DepartmentList = () => {
   const [filteredDepartments, setFilteredDepartments] = useState([]);
 
   const onDepartmentDelete = async (id) => {
-    const data = departments.filter(dep => dep._id !== id);
-    setDepartments(data);
+    setDepartments(currentDepartments =>
+      currentDepartments.filter(dep => dep._id !== id)
+    );
+    setFilteredDepartments(currentDepartments =>
+      currentDepartments.filter(dep => dep._id !== id)
+    );
   }
 
   useEffect(() => {

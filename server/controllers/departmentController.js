@@ -39,8 +39,8 @@ const updateDepartment = async (req, res) => {
         const {id} = req.params;
         const {dep_name, description} = req.body;
         const updateDep = await Department.findByIdAndUpdate({_id: id},
-            dep_name,
-            description
+            {dep_name, description},
+            {new: true, runValidators: true}
         )
     return res.status(200).json({success: true, updateDep})
     } catch(error) {
