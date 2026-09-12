@@ -5,7 +5,7 @@ import axios from "axios"
 export const DepartmentButtons = ({Id, onDepartmentDelete }) => {
     const navigate = useNavigate()
 
-    const handleDelete = async(id) => {
+    const handleDelete = async (id) => {
         const confirm = window.confirm("Do you want to delete?")
         if(confirm) {
         try {
@@ -25,8 +25,7 @@ export const DepartmentButtons = ({Id, onDepartmentDelete }) => {
                 }
               }
             }
-    };
-
+    }
     return (
         <div className="flex space-x-3">
             <button className="px-3 py-1 bg-teal-600 text-white"
