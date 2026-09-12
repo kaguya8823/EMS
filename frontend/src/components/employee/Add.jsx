@@ -1,9 +1,15 @@
 import {useState , useEffect } from 'react';
 import { fetchDepartments } from '../../utils/EmployeeHelper';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
 
-  const [departments, setDepartments] = useState([])
+  const [departments, setDepartments] = useState([]);
+  const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
+
+
   useEffect(() => {
     const getDepartments = async () => {
       const departments = await fetchDepartments()
@@ -11,10 +17,44 @@ const Add = () => {
     }
     getDepartments()
   }, [])
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if(name === "image") {
+      setFormData((prevData) => ({...prevData, [name] : files[0]}))
+    } else {
+      setFormData((prevData) => ({...prevData, [name] : value}))
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const formDataObj = new FormData()
+    Object.keys(formData).forEach((key) => {
+      formDataObj.append(key, formData[key])
+    })
+
+    try {
+            const response = await axios.post('http://localhost:3001/api/employee/add', formDataObj, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                }
+            })
+            if (response.data.success) {
+                navigate('/admin-dashboard/employees')
+            }
+        } catch (error) {
+            if(error.response && !error.response.data.success) {
+                alert(error.response.data.error)
+            }
+        }
+  }
+
   return (
     <div className='max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md'>
       <h2 className='text-2xl font-bold mb-6'>Add New Employee</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Name */}
           <div>
@@ -24,8 +64,9 @@ const Add = () => {
             <input
             type="text"
             name="name"
-             placeholder="Insert Name"
-             className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+            onChange={handleChange}
+            placeholder="Insert Name"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
              required
            />
           </div>
@@ -38,6 +79,7 @@ const Add = () => {
             <input
              type="email"
              name="email"
+             onChange={handleChange}
              placeholder="Insert Email"
              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
              required
@@ -52,6 +94,7 @@ const Add = () => {
             <input
              type="text"
              name="employeeId"
+             onChange={handleChange}
              placeholder="Insert Employee ID"
              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
              required
@@ -66,6 +109,7 @@ const Add = () => {
             <input
              type="date"
              name="dob"
+             onChange={handleChange}
              placeholder="DOB"
              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
              required
@@ -79,6 +123,7 @@ const Add = () => {
             </label>
             <select
              name="gender"
+             onChange={handleChange}
              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
              required
            >
@@ -96,6 +141,7 @@ const Add = () => {
             </label>
             <select
              name="maritalStatus"
+             onChange={handleChange}
              placeholder="Marital Status"
              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
              required
@@ -114,6 +160,7 @@ const Add = () => {
             <input
              type="text"
              name="designation"
+             onChange={handleChange}
              placeholder="Insert Designation"
              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
              required
@@ -127,6 +174,7 @@ const Add = () => {
             </label>
             <select
               name="department"
+              onChange={handleChange}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               required
             >
@@ -147,6 +195,7 @@ const Add = () => {
             <input
               type="number"
               name="salary"
+              onChange={handleChange}
               placeholder="Insert Salary"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               required
@@ -162,6 +211,7 @@ const Add = () => {
               type="password"
               name="password"
               placeholder="*********"
+              onChange={handleChange}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               required
             />
@@ -174,12 +224,13 @@ const Add = () => {
             </label>
             <select
               name="role"
+              onChange={handleChange}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               required
             >
               <option value="">Select Role</option>
-              <option value="employee">Admin</option>
-              <option value="manager">Employee</option>
+              <option value="employee">Employee</option>
+              <option value="admin">Admin</option>
             </select>
           </div>
 
@@ -191,6 +242,7 @@ const Add = () => {
             <input
               type="file"
               name="image"
+              onChange={handleChange}
               placeholder="Upload Image"
               accept="image/*"
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"

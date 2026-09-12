@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     Unfonts({
       google: {
-        families: ['pacifico']
+        families: ['Pacifico']
       }
     }),
     tailwindcss(),
