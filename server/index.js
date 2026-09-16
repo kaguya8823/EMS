@@ -8,6 +8,7 @@ import employeeRouter from './routes/employee.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public/uploads'))
 app.use('/api/auth', authRouter);
 app.use('/api/employee', employeeRouter);
 app.use('/api/department', departmentRouter);
