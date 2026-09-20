@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { EmployeeButtons, columns } from '../../utils/EmployeeHelper'
+import { columns } from '../../utils/EmployeeHelper'
+import { EmployeeButtons } from '../../utils/EmployeeButtons'
 import DataTable from '@revivejs/react-data-table-component'
 
 const List = () => {
