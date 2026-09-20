@@ -8,6 +8,7 @@ import DataTable from '@revivejs/react-data-table-component'
 const List = () => {
     const [employees, setEmployees] = useState([]);
     const [empLoading, setEmpLoading] = useState(false);
+    const [filteredEmployee, setFilteredEmployees] = useState([])
 
 
 
@@ -40,6 +41,7 @@ const List = () => {
                     action: (<EmployeeButtons Id={emp._id} />),
                   }));
               setEmployees(data);
+              setFilteredEmployees(data)
             }
           } catch(error) {
             if(error.response && !error.response.data.success) {
@@ -52,6 +54,13 @@ const List = () => {
         fetchEmployees();
       }, [])
 
+      const handleFilter = (e) => {
+        const records = employees.filter((emp) => (
+          emp.name.toLowerCase().includes(e.target.value.toLowerCase())
+        ))
+        setFilteredEmployees(records)
+      }
+
 
   return (
     <div className='p-6'>
@@ -63,6 +72,7 @@ const List = () => {
         type="text" 
         placeholder='Search By Emp Name'
         className='px=4 py-0.5 border'
+        onChange={handleFilter}
          />
         <Link to="/admin-dashboard/add-employee"
         className='px-4 py-1 bg-teal-600 rounded text-white'
@@ -70,8 +80,8 @@ const List = () => {
         Add New Employee
         </Link>
       </div>
-      <div>
-        <DataTable columns={columns} data={employees} />
+      <div className='mt-6'>
+        <DataTable columns={columns} data={filteredEmployee} pagination />
       </div>
     </div>
   )

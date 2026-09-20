@@ -5,9 +5,14 @@ import { fetchDepartments } from '../../utils/EmployeeHelper';
 
 const Edit = () => {
 
-  const [employee, setEmployee] = useState(null);
+  const [employee, setEmployee] = useState({
+    name: "",
+    maritalStatus: "",
+    designation: "",
+    salary: 0,
+    department: ""
+  });
   const [departments, setDepartments] = useState(null);
-  const [formData, setFormData] = useState();
   const navigate = useNavigate();
   const {id} = useParams()
 
@@ -30,7 +35,15 @@ const Edit = () => {
           },
         });
         if (response.data.success) {
-            setEmployee(response.data.employee)
+            const employee = response.data.employee
+            setEmployee((prev) => ({
+                ...prev,
+                name: employee.userId.name,
+                maritalStatus: employee.maritalStatus,
+                designation: employee.designation,
+                salary: employee.salary,
+                department: employee.department._id
+                 }))
         }
       } catch(error) {
         if(error.response && !error.response.data.success) {
@@ -42,24 +55,18 @@ const Edit = () => {
     }, [id]);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if(name === "image") {
-      setFormData((prevData) => ({...prevData, [name] : files[0]}))
-    } else {
-      setFormData((prevData) => ({...prevData, [name] : value}))
+    const { name, value } = e.target;
+      setEmployee((prevData) => ({...prevData, [name] : value}))
     }
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const formDataObj = new FormData()
-    Object.keys(formData).forEach((key) => {
-      formDataObj.append(key, formData[key])
-    })
-
     try {
-            const response = await axios.post('http://localhost:3001/api/employee/add', formDataObj, {
+            const response = await axios.put(
+                `http://localhost:3001/api/employee/${id}`,
+                employee,
+                {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`,
                 }
@@ -88,7 +95,7 @@ const Edit = () => {
             <input
             type="text"
             name="name"
-            value={employee.userId.name}
+            value={employee.name}
             onChange={handleChange}
             placeholder="Insert Name"
             className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
@@ -131,26 +138,6 @@ const Edit = () => {
            />
           </div>
 
-          {/* Department */}
-          <div className='col-span-2'>
-            <label className="block text-sm font-medium text-gray-700">
-            Department
-            </label>
-            <select
-              name="department"
-              onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Department</option>
-              {departments.map((dep) => (
-                <option key={dep._id} value={dep._id}>
-                  {dep.dep_name}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {/* Salary */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -166,12 +153,33 @@ const Edit = () => {
               required
             />
           </div>
+
+          {/* Department */}
+          <div className='col-span-2'>
+            <label className="block text-sm font-medium text-gray-700">
+            Department
+            </label>
+            <select
+              name="department"
+              onChange={handleChange}
+              value={employee.department}
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              required
+            >
+              <option value="">Select Department</option>
+              {departments.map((dep) => (
+                <option key={dep._id} value={dep._id}>
+                  {dep.dep_name}
+                </option>
+              ))}
+            </select>
+          </div>
          </div>
           <button
             type="submit"
             className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-md"
           >
-            Add Employee
+            Edit Employee
           </button>
       </form>
     </div>
