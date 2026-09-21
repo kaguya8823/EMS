@@ -138,7 +138,6 @@ const fetchEmployeesByDepId = async (req, res) => {
     const {id} = req.params;
     try {
         const employees = await Employee.find({ department: id})
-
     return res.status(200).json({success: true, employees})
     } catch(error) {
         return res

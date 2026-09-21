@@ -1,21 +1,19 @@
 import {useState , useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchDepartments, getEmployees } from '../../utils/EmployeeHelper';
 
-const Add = () => {
-
-  const [employee, setEmployee] = useState({
-    name: "",
-    maritalStatus: "",
-    designation: "",
-    salary: 0,
-    department: ""
+const AddSalary = () => {
+  const [salary, setSalary] = useState({
+    employeeId: null,
+    basicSalary: 0,
+    allowances: 0,
+    deductions: 0,
+    payDate: null,
   });
   const [departments, setDepartments] = useState(null);
-  const [employees, setEmployees] = useState(null);
+  const [employees, setEmployees] = useState([]);
   const navigate = useNavigate();
-  const {id} = useParams()
 
     useEffect(() => {
       const getDepartments = async () => {
@@ -26,52 +24,22 @@ const Add = () => {
     }, [])
 
     const handleDepartment = async (e) => {
-        const emps = await getEmployees(e.tartget.value)
+        const emps = await getEmployees(e.target.value)
         setEmployees(emps)
     }
 
-
-  useEffect(() => {
-        const fetchEmployee = async () => {
-      try {
-        const response = await axios.get(
-            `http://localhost:3001/api/employee/${id}`, {
-          headers: {
-            Authorization : `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (response.data.success) {
-            const employee = response.data.employee
-            setEmployee((prev) => ({
-                ...prev,
-                name: employee.userId.name,
-                maritalStatus: employee.maritalStatus,
-                designation: employee.designation,
-                salary: employee.salary,
-                department: employee.department._id
-                 }))
-        }
-      } catch(error) {
-        if(error.response && !error.response.data.success) {
-          alert(error.response.data.error)
-        }
-      }
-    };
-    fetchEmployee();
-    }, [id]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-      setEmployee((prevData) => ({...prevData, [name] : value}))
+      setSalary((prevData) => ({...prevData, [name] : value}))
     }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
-            const response = await axios.put(
-                `http://localhost:3001/api/employee/${id}`,
-                employee,
+            const response = await axios.post(
+                `http://localhost:3001/api/salary/add`,
+                salary,
                 {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`,
@@ -88,21 +56,20 @@ const Add = () => {
   }
 
   return (
-    <>{departments && employee ? (
+    <>{departments ? (
     <div className='max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md'>
       <h2 className='text-2xl font-bold mb-6'>Add Salry</h2>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         {/* department */}
-          <div className='col-span-2'>
+          <div>
             <label className="block text-sm font-medium text-gray-700">
             Department
             </label>
             <select
               name="department"
               onChange={handleDepartment}
-              value={employee.department}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               required
             >
@@ -116,12 +83,12 @@ const Add = () => {
           </div>
 
           {/* employee */}
-          <div className='col-span-2'>
+          <div>
             <label className="block text-sm font-medium text-gray-700">
             Employee
             </label>
             <select
-              name="department"
+              name="employeeId"
               onChange={handleChange}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               required
@@ -135,39 +102,37 @@ const Add = () => {
             </select>
           </div>
 
-          {/* Marital Status */}
+          {/* Basic Salary */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
             Basic Salary
             </label>
-            <select
-             name="basicsalary"
+            <input
+             type="number"
+             name="basicSalary"
              onChange={handleChange}
              placeholder="Basic Salary"
              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
              required
-           >
-             <option value="">Select Marital Status</option>
-             <option value="single">Single</option>
-             <option value="married">Married</option>
-           </select>
+            />
           </div>
 
-          {/* Basic Salary */}
+          {/* Allowances */}
           <div>
             <label className='block text-sm font-medium text-gray-700'>
-                Basic Salary
+                Allowances
             </label>
             <input
              type='number'
-             name='basicSalary'
+             name='allowances'
              onChange={handleChange}
-             placeholder='basic salary'
+             placeholder='allowances'
              className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
              required
             />
           </div>
 
+          {/* Deducions */}
           <div>
             <label className='block text-sm font-medium text-gray-700'>
                 Deductions
@@ -182,12 +147,26 @@ const Add = () => {
             />
           </div>
 
+          {/* Pay Date */}
+          <div>
+            <label className='block text-sm font-medium text-gray-700'>
+                Pay Date
+            </label>
+            <input
+             type='date'
+             name='payDate'
+             onChange={handleChange}
+             className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+             required
+            />
+          </div>
+
          </div>
           <button
             type="submit"
             className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-md"
           >
-            Edit Employee
+            Add Salary
           </button>
       </form>
     </div>
@@ -195,4 +174,4 @@ const Add = () => {
   )
 }
 
-export default Add
+export default AddSalary

@@ -63,7 +63,7 @@ export const getEmployees = async (id) => {
             Authorization : `Bearer ${localStorage.getItem('token')}`,
           },
         });
-
+        console.log(response)
         if (response.data.success) {
             employees = response.data.employees
         }

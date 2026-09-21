@@ -17,3 +17,9 @@ ubuntu ->
 5173: フロントエンド（Vite）
 3001: バックエンド API（Express）
 27017: MongoDB 本体 (ubuntu mongosh)
+
+
+add new salary
+department    employee
+basic salary  allowances
+deducions     pay date
