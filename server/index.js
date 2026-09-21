@@ -5,6 +5,7 @@ import connectToDatabase from './db/db.js';
 import departmentRouter from './routes/department.js';
 import employeeRouter from './routes/employee.js';
 
+connectToDatabase()
 const app = express();
 app.use(cors());
 app.use(express.json());
