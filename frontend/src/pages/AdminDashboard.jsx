@@ -1,8 +1,11 @@
 import AdminSidebar from '../components/dashboard/AdminSidebar';
 import Navbar from '../components/dashboard/Navbar';
 import  { Outlet } from "react-router-dom"
+import { useAuth } from '../hooks/useAuth';
 
 const AdminDashboard = () => {
+  const {user} = useAuth()
+
   return (
   <div className='flex'>
     <AdminSidebar />

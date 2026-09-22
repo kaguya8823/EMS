@@ -19,7 +19,6 @@ ubuntu ->
 27017: MongoDB 本体 (ubuntu mongosh)
 
 
-add new salary
-department    employee
-basic salary  allowances
-deducions     pay date
+employee アドレス
+mail:  zukunashi8@gmail.com
+pass:  88230325

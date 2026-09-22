@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
-const View = () => {
+const EmployeeView = () => {
     const {id} = useParams()
     const [employee, setEmployee] = useState(null)
 
@@ -28,6 +28,7 @@ const View = () => {
   }, [id]);
   return (
     <>
+    <div className='p-6'>
     {employee ? (
     <div className='max-w-3xl mx-auto mu-10 bg-white p-8 rounded-md shadow-md'>
         <h2 className='text-2xl font-bold mb-8 text-center'>
@@ -70,8 +71,9 @@ const View = () => {
     </div>
     ): 
     <div>Loading ... </div>}
+    </div>
     </>
   )
 }
 
-export default View
+export default EmployeeView
