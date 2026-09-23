@@ -1,10 +1,46 @@
+import { useState } from "react"
+import { useAuth } from "../../hooks/useAuth" 
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const LeaveAdd = () => {
-    const handleChange = (e) => {};
+    const {user} = useAuth()
+
+    const [leave, setLeave] = useState({
+      userId: user._id,
+    })
+
+    const navigate = useNavigate()
+
+    const handleChange = (e) => {
+      const {name, value} = e.target
+      setLeave((prevState) => ({...prevState, [name] : value}))
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const response = await axios.post(
+            "http://localhost:3001/api/leave/add", leave , {
+          headers: {
+            Authorization : `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response.data.success) {
+          navigate("/employee-dashboard/leaves")
+        }
+      } catch(error) {
+        if(error.response && !error.response.data.success) {
+          alert(error.response.data.error)
+        }
+      }
+    }
+
+
   return (
     <div className='max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md'>
       <h2 className='text-2xl font-bold mb-6'>Request for Leave</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-4">
           {/* Leave Type */}
           <div>
@@ -61,7 +97,7 @@ const LeaveAdd = () => {
             </label>
             <textarea
              type="reason"
-             name="Reason"
+             name="reason"
              placeholder="Reason"
              onChange={handleChange}
              className="w-full border border-gray-300"
