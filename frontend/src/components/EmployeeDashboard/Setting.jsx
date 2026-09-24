@@ -25,8 +25,8 @@ const Setting = () => {
             setError("Password not matched");
         } else {
             try {
-                const response = await axios.post(
-                    "/setting/change-password",
+                const response = await axios.put(
+                    "http://localhost:3001/api/setting/change-password",
                     setting,
                     {
                         headers: {
@@ -35,7 +35,7 @@ const Setting = () => {
                     }
                 );
                 if (response.data.success){
-                    navigate("/admin-dashboard/employees");
+                  navigate(user.role === "admin" ? "/admin-dashboard/employees" : "/employee-dashboard");
                     setError("")
                 }
             } catch(error) {
@@ -46,60 +46,67 @@ const Setting = () => {
         }
     }
   return (
-        <div 
-      className="flex flex-col items-center h-screen justify-center
-      bg-gradient-to-b from-teal-600 from-50% to-gray-100 to-50% space-y-6"
-      >
-        <h2 className="font-pacifico text-3xl text-white" id="title">
-          Employee Management System
-        </h2>
+        <div className='max-w-3xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md w-96'>
+         <h2 className="text-2xl font-bold md-6">
+          Change Password
+         </h2>
         <div className="border shadow p-6 w-80 bg-white">
-          <h2 className="text-2xl font-bold mb-4">Login</h2>
-          {error && <p className="text-red-500">{error}</p>}
-          <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">
-              Email
-            </label>
-            <input
-             type="email"
-             id="email"
-             placeholder="Enter Email"
-             className="w-full px-3 py-2 border"
-             onChange={(e) => setEmail(e.target.value)}
-             required
-             />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700">
-              Password
+          <p className='text-red-500'>{error}</p>
+
+        <form onSubmit={handleSubmit}>
+
+          {/* Old Password */}
+          <div>
+            <label className="text-sm font-medium text-gray-700">
+              Old Password
             </label>
             <input
              type="password"
-             id="password"
-             placeholder="Enter Password"
-             className="w-full px-3 py-2 border"
-             onChange={(e) => setPassword(e.target.value)}
+             name="oldPassword"
+             placeholder="Change Password"
+             onChange={handleChange}
+             className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+             required
+             />
+          </div>
+
+          {/* New Password */}
+          <div>
+            <label className="text-sm font-medium text-gray-700">
+              New Password
+            </label>
+            <input
+             type="password"
+             name="newPassword"
+             placeholder="New Password"
+             onChange={handleChange}
+             className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+             required
+             />
+          </div>
+
+          {/* Confirm Password */}
+          <div>
+            <label className="text-sm font-medium text-gray-700">
+              Confirm Password
+            </label>
+            <input
+             type="password"
+             name="confirmPassword"
+             placeholder="Confirm Password"
+             onChange={handleChange}
+             className="mt-1 w-full p-2 border border-gray-300 rounded-md"
              required
             />
           </div>
-          <div className="mb-4 flex items-center justify-between">
-            <label className="inline-flex items-center">
-              <input type="checkbox" className="form-checkbox" />
-              <span className="ml-2 text-gray-700">Remember me</span>
-            </label>
-            <a href="#" className="text-teal-600">
-              Forgot password?
-            </a>
-          </div>
-          <div className="mb-4">
+
           <button
             type="submit"
-            className="w-full bg-teal-600 text-white py-2"
+            className="w-full bg-teal-600 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-md"
           >
-            Login
+            Change Password
           </button>
-        </div>
+
         </form>
         </div>
       </div>

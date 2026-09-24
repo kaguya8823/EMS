@@ -51,7 +51,6 @@ function App() {
 
           <Route path="/admin-dashboard/salary/add" element={<AddSalary />} ></Route>
 
-
         </Route>
         <Route
           path="/employee-dashboard"
