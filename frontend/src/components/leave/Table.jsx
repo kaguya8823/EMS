@@ -1,8 +1,8 @@
 import { useEffect , useState } from 'react';
 import axios from 'axios';
 import { LeaveButtons } from "../../utils/LeaveHelper";
-import { columns } from "../../utils/LeaveColumns.js";
-import DataTable from 'react-data-table-component';
+import { LeaveColumns } from "../../utils/LeaveColumns";
+import DataTable from '@revivejs/react-data-table-component';
 
 const Table = () => {
     
@@ -62,7 +62,7 @@ const Table = () => {
         </div>
       </div>
 
-      <DataTable columns={columns} data={leaves} pagination/>
+      <DataTable columns={LeaveColumns} data={leaves} pagination/>
     </div>
     ) : <div>Loading ...</div>}
   </>
