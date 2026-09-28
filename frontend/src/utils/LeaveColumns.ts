@@ -37,7 +37,7 @@ export const LeaveColumns: TableColumn<LeaveRow>[] = [
     {
         name: "Department",
         selector: (row) => row.department,
-        width: "140px",
+        width: "10px",
     },
     {
         name: "Days",

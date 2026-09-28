@@ -56,4 +56,27 @@ try {
         }
 }
 
-export {addLeave, getLeave, getLeaves}
+const getLeaveDetail = async (req, res) => {
+try {
+        const { id } = req.params;
+        const leave = await Leave.findById({_id: id}).populate({
+            path: "employeeId",
+            populate: [
+                {
+                    path: 'department',
+                    select: 'dep_name',
+                },
+                {
+                    path: 'userId',
+                    select: 'name, profileImage',
+                },
+            ]
+        })
+        return res.status(200).json({success: true, leave})
+    } catch(error) {
+            return res.status(500).json({success: false, error: "leave get server error"})
+        }
+}
+
+
+export {addLeave, getLeave, getLeaves, getLeaveDetail}

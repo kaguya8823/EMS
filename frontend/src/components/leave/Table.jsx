@@ -62,7 +62,10 @@ const Table = () => {
         </div>
       </div>
 
-      <DataTable columns={LeaveColumns} data={leaves} pagination/>
+
+      <div className='mt-3'>
+       <DataTable columns={LeaveColumns} data={leaves} pagination/>
+      </div>
     </div>
     ) : <div>Loading ...</div>}
   </>
