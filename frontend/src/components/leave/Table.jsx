@@ -1,6 +1,7 @@
 import { useEffect , useState } from 'react';
 import axios from 'axios';
-import { columns, LeaveButtons } from "../../utils/LeaveHelper";
+import { LeaveButtons } from "../../utils/LeaveHelper";
+import { columns } from "../../utils/LeaveColumns.js";
 import DataTable from 'react-data-table-component';
 
 const Table = () => {
@@ -10,7 +11,7 @@ const Table = () => {
     useEffect(() => {
     const fetchLeaves = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/api/leaves', {
+            const response = await axios.get('http://localhost:3001/api/leave', {
                 headers: {
                     Authorization : `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -23,7 +24,7 @@ const Table = () => {
                     employeeId: leave.employeeId.employeeId,
                     name: leave.employeeId.userId.name,
                     leaveType: leave.leaveType,
-                    department: leave.employeeId.department.name,
+                    department: leave.employeeId.department.dep_name,
                     days:
                         new Date(leave.endDate).getDate() -
                         new Date(leave.startDate).getDate(),
