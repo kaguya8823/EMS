@@ -20,6 +20,7 @@ import EmployeeView from "./components/employee/View";
 import LeaveList from "./components/leave/List";
 import LeaveAdd from "./components/leave/Add";
 import Setting from "../src/components/EmployeeDashboard/Setting.jsx"
+import Table from "./components/leave/Table.jsx";
 
 function App() {
   return (
@@ -50,6 +51,9 @@ function App() {
 
 
           <Route path="/admin-dashboard/salary/add" element={<AddSalary />} ></Route>
+
+          <Route path="/admin-dashboard/leaves" element={<Table />} ></Route>
+
 
         </Route>
         <Route
