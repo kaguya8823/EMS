@@ -26,9 +26,13 @@ const addLeave = async (req, res) => {
 const getLeave = async (req, res) => {
     try {
         const {id} = req.params;
-        const employee = await Employee.findOne({userId: id})
+        let leaves = await Leave.find({employeeId: id})
+        if(!leaves) {
+            const employee = await Employee.findOne({userId: id})
 
-        const leaves = await Leave.find({employeeId: employee._id})
+            leaves = await Leave.find({employeeId: employee._id})
+        }
+        
         return res.status(200).json({success: true, leaves})
     } catch(error) {
             return res.status(500).json({success: false, error: "leave get server error"})
@@ -78,5 +82,19 @@ try {
         }
 }
 
+const updateLeave = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const leave = await Leave.findByIdAndUpdate({_id: id}, {status: req.body.status})
+        if(!leave) {
+        return res.status(404).json({success: false, error: "leave not founded"})
+        }
+        return res.status(200).json({success: true})
+    } catch(error) {
+        console.log(error.message)
+        return res.status(500).json({success: false, error: "leave update server error"})
 
-export {addLeave, getLeave, getLeaves, getLeaveDetail}
+    }
+}
+
+export {addLeave, getLeave, getLeaves, getLeaveDetail, updateLeave}

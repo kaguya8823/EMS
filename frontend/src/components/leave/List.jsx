@@ -1,20 +1,22 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth";
 
 
 // ここの記述はReact19での新しいルール「set-state-in-effect」という機能で、useEffectの記述方法が少し変わった。
 // useEffect内部でuseStateが検出されると起きるエラーらしい。
 const LeaveList = () => {
-      const {user} = useAuth();
-      const [leaves, setLeaves] = useState([]);
+      const [leaves, setLeaves] = useState(null);
       let sno = 1;
+
+      const { id } = useParams()
+      const { user } = useAuth()
       
     useEffect(() => {
       const fetchLeaves = async () => {
         try {
-          const response = await axios.get(`http://localhost:3001/api/leave/${user._id}`, {
+          const response = await axios.get(`http://localhost:3001/api/leave/${id}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -29,7 +31,11 @@ const LeaveList = () => {
         }
     };
       fetchLeaves();
-    }, [user._id]);
+    }, []);
+
+    if(!leaves) {
+      return <div>Loading ...</div>
+    }
 
   return (
     <div className='p-6'>
@@ -42,11 +48,13 @@ const LeaveList = () => {
         placeholder='Search By Dep Name'
         className='px=4 py-0.5 border'
          />
+         {user.role === "employee" &&
         <Link to="/employee-dashboard/add-leave"
         className='px-4 py-1 bg-teal-600 rounded text-white'
         >
         Add New Leave
         </Link>
+        }
       </div>
 
       <table className='w-full text-sm text-left text-gray-500 mt-6'>

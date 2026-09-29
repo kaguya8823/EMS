@@ -36,7 +36,7 @@ const AdminSidebar = () => {
                 <FaMoneyBillWave />
                 <span>Salary</span>
             </NavLink>
-            <NavLink to="/admin-dashboard"
+            <NavLink to="/admin-dashboard/setting"
             className='flex items-center space-x-4 block py-2.5 px-4 rounded'>
                 <FaCogs />
                 <span>Settings</span>

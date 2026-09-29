@@ -55,7 +55,9 @@ function App() {
 
           <Route path="/admin-dashboard/leaves" element={<Table />} ></Route>
           <Route path="/admin-dashboard/leaves/:id" element={<Detail />} ></Route>
+          <Route path="/admin-dashboard/employees/leaves/:id" element={<LeaveList />} ></Route>
 
+          <Route path="/admin-dashboard/setting" element={<Setting />}></Route>
 
         </Route>
         <Route
@@ -71,7 +73,7 @@ function App() {
           <Route index element={<EmployeeSummary />} />
 
           <Route path="/employee-dashboard/profile/:id" element={<EmployeeView />} />
-          <Route path="/employee-dashboard/leave/:id" element={<LeaveList />} />
+          <Route path="/employee-dashboard/leaves/:id" element={<LeaveList />} />
           <Route path="/employee-dashboard/add-leave" element={<LeaveAdd />} />
           <Route path="/employee-dashboard/salary/:id" element={<ViewSalary />} />
 

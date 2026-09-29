@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const Detail = () => {
     const {id} = useParams()
     const [leave, setLeave] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchLeave = async () => {
@@ -26,6 +27,25 @@ const Detail = () => {
     };
     fetchLeave();
   }, [id]);
+
+  const changeStatus = async (id, status) => {
+    try {
+        const response = await axios.put(
+          `http://localhost:3001/api/leave/${id}`, { status }, {
+          headers: {
+            Authorization : `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response.data.success) {
+            navigate('/admin-dashboard/leaves')
+        }
+      } catch(error) {
+        if(error.response && !error.response.data.success) {
+          alert(error.response.data.error)
+        }
+      }
+  }
+
   return (
     <>
     <div className='p-6'>
@@ -76,8 +96,12 @@ const Detail = () => {
                 </p>
                 {leave.status === "Pending" ? (
                     <div className='flex space-x-2'>
-                        <button>Approve</button>
-                        <button>Reject</button>
+                        <button className='px-2 py-0.5 bg-teal-300 hover:bg-teal-400'
+                         onClick={() => changeStatus(leave._id, "Approved")}>
+                        Approve</button>
+                        <button className='px-2 py-0.5 bg-red-300 hover:bg-red-400'
+                         onClick={() => changeStatus(leave._id, "Rejected")}>
+                        Reject</button>
                     </div>
                 ) :
                 <p className='font-medium'>{leave.status}</p>
