@@ -38,6 +38,7 @@ const LeaveAdd = () => {
 
 
   return (
+    <>{leave ? (
     <div className='max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md'>
       <h2 className='text-2xl font-bold mb-6'>Request for Leave</h2>
       <form onSubmit={handleSubmit}>
@@ -109,10 +110,11 @@ const LeaveAdd = () => {
             type="submit"
             className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-md"
           >
-            Add Salary
+            Add Leave
           </button>
       </form>
     </div>
+    ) : <div>Loading ...</div>}</>
   )
 }
 

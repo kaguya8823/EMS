@@ -31,7 +31,7 @@ const LeaveList = () => {
         }
     };
       fetchLeaves();
-    }, []);
+    }, [id]);
 
     if(!leaves) {
       return <div>Loading ...</div>
